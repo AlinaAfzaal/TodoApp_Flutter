@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'todoItem.dart';
+import '../model/todoItem.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
-class ToDoHomePage extends StatefulWidget {
-  const ToDoHomePage({super.key});
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  ToDoHomePageState createState() => ToDoHomePageState();
+  HomePageState createState() => HomePageState();
 }
 List<ToDoItem> todoList = [
   ToDoItem(title: 'Coding', isCompleted: false),
@@ -23,10 +26,11 @@ int showItems = 0;
 List<ToDoItem> currentList = todoList;
 
 
-class ToDoHomePageState extends State<ToDoHomePage> {
+class HomePageState extends State<HomePage> {
   Color mainColor = const Color(0xFF0AB6AB);
   TextEditingController textEditingController = TextEditingController();
   String _newValue ="";
+  DateTime? reminder;
 
 
   @override
@@ -110,6 +114,7 @@ class ToDoHomePageState extends State<ToDoHomePage> {
                                         setState(() {
                                           currentList[index].title = _newValue;
                                           _newValue = "";
+                                          reminder = null;
                                           Navigator.pop(context);
                                         });
                                       },
@@ -149,31 +154,36 @@ class ToDoHomePageState extends State<ToDoHomePage> {
                       color: Color(0xFF201F1F),
                       borderRadius: BorderRadius.all(Radius.circular(8))
                   ),
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: currentList[index].isCompleted,
-                        onChanged: (value) {
-                          setState(() {
-                            currentList[index].isCompleted = value!;
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        currentList[index].title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          decoration: currentList[index].isCompleted
-                              ? TextDecoration.lineThrough
-                              : null,
-                        ),
-                      ),
-                    ],
+                  child:ListTile(
+                    leading: Checkbox(
+                      value: currentList[index].isCompleted,
+                      onChanged: (value) {
+                        setState(() {
+                          currentList[index].isCompleted = value!;
+                        });
+                      },
+                    ),
+                    title: Text(
+                    currentList[index].title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: currentList[index].isCompleted
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
                   ),
+                    subtitle: currentList[index].reminder!=null?Text(
+            DateFormat('MMM d, yyyy HH:mm').format(currentList[index].reminder??DateTime.now()),
+                      style: TextStyle(
+                      color: mainColor,
+                  ),
+
+
+                  ): null
+
                 ),
               ),
-            );
+            ));
           },
         ),
       ),
@@ -184,10 +194,33 @@ class ToDoHomePageState extends State<ToDoHomePage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('Add ToDo Item'),
-                  content: TextFormField(
-                    controller: textEditingController,
-                    decoration: const InputDecoration(
-                        hintText: 'Enter ToDo Item'),
+                  content: SizedBox(
+                    height: 100,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left:8.0),
+                          child: TextFormField(
+                            controller: textEditingController,
+                            decoration: const InputDecoration(
+                                hintText: 'Enter ToDo Item'),
+                          ),
+                        ),
+                        TextButton(onPressed: () async {
+
+                            reminder = await showOmniDateTimePicker
+                              (context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2024),
+                              lastDate: DateTime(2026),
+                            );
+                            setState(() {
+
+                            });
+                        }, child: Text(reminder==null?"Set Alarms": reminder.toString()))
+                      ],
+                    ),
                   ),
                   actions: [
                     TextButton(
@@ -202,9 +235,11 @@ class ToDoHomePageState extends State<ToDoHomePage> {
                         setState(() {
                           ToDoItem item = ToDoItem(
                               title: textEditingController.text,
+                              reminder: reminder,
                               isCompleted: false);
                           todoList.add(item);
                           textEditingController.clear();
+                          reminder=null;
                           Navigator.pop(context);
                         });
                       },

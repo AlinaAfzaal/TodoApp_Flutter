@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/splashScreen.dart';
-import 'package:todo_app/todoHomePage.dart';
+import 'package:todo_app/pages/splashScreen.dart';
+import 'package:todo_app/pages/home.dart';
 
 void main() {
   runApp(const MyApp());

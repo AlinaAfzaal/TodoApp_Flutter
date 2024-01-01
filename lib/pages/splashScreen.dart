@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todo_app/todoHomePage.dart';
+import 'package:todo_app/pages/home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 6),
           () => Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ToDoHomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       ),
     );
   }

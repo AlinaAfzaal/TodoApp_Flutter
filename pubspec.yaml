@@ -41,6 +41,9 @@ dev_dependencies:
     sdk: flutter
   flutter_slidable: ^3.0.0
   lottie: ^2.6.0
+  omni_datetime_picker:
+  intl: ^0.17.0
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
