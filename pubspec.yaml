@@ -43,6 +43,7 @@ dev_dependencies:
   lottie: ^2.6.0
   omni_datetime_picker:
   intl: ^0.17.0
+  provider: ^6.1.1
 
 
 

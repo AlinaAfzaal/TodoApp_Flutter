@@ -1,9 +1,21 @@
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/pages/splashScreen.dart';
-import 'package:todo_app/pages/home.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/providers/home_page_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  // MultiProvider(
+  //     providers: [
+  //     ChangeNotifierProvider(create: (_) => HomePageProvider()),
+  // ]);
+
+  runApp(
+      ChangeNotifierProvider(
+          create: (context)=>HomePageProvider(),
+        child: const MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
