@@ -18,21 +18,29 @@ class HomePageProvider with ChangeNotifier{
   String todoValue = "";
   String newValue ="";
   DateTime? reminder;
+  List<ToDoItem>  currentList = [];
+
+  HomePageProvider(){
+    getCurrentList();
+  }
+
 
   List<ToDoItem> getCurrentList(){
-    List<ToDoItem>  currentList = todoList;
     if(showItems==0){currentList = todoList;}
     else if(showItems==1) {
       currentList = incompleteItems;
     } else if(showItems==2){ currentList = completeItems;}
+    ChangeNotifier();
+    notifyListeners();
     return currentList;
 
   }
 
   toggleCheckbox(int index){
-
-    getCurrentList()[index].isCompleted = !getCurrentList()[index].isCompleted;
+    currentList[index].isCompleted = !currentList[index].isCompleted;
     ChangeNotifier();
+    notifyListeners();
+
   }
 
   addTodoItem(String text){
@@ -43,18 +51,24 @@ class HomePageProvider with ChangeNotifier{
     todoList.add(item);
     reminder=null;
     ChangeNotifier();
+    notifyListeners();
+
   }
 
   editTodoItem(int index){
-    getCurrentList()[index].title = newValue;
+    currentList[index].title = newValue;
     newValue = "";
     reminder = null;
     ChangeNotifier();
+    notifyListeners();
+
   }
 
   deleteTodoItem(int index){
-    getCurrentList().removeAt(index);
+    currentList.removeAt(index);
     ChangeNotifier();
+    notifyListeners();
+
 
   }
 

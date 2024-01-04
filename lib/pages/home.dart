@@ -46,8 +46,8 @@ class HomePage extends StatelessWidget {
                           ],
                         ).then((value) {
                           if (value != null) {
-
                             provider.showItems = value;
+                            provider.getCurrentList();
                           }
                         });
                       },
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                   child: ListView.builder(
 
-                    itemCount: provider.getCurrentList().length,
+                    itemCount: provider.currentList.length,
                     itemBuilder: (context, index) {
 
                       return GestureDetector(
@@ -95,7 +95,7 @@ class HomePage extends StatelessWidget {
                                             title: const Text('Edit ToDo Item'),
                                             content: TextFormField(
                                               initialValue: provider
-                                                  .getCurrentList()[index].title,
+                                                  .currentList[index].title,
                                               onChanged: (value) {
                                                 provider.newValue = value;
                                               },
@@ -149,25 +149,25 @@ class HomePage extends StatelessWidget {
                               ),
                               child: ListTile(
                                   leading: Checkbox(
-                                    value: provider.getCurrentList()[index].isCompleted,
+                                    value: provider.currentList[index].isCompleted,
                                     onChanged: (value) {
                                       provider.toggleCheckbox(index);
                                     },
                                   ),
                                   title: Text(
-                                    provider.getCurrentList()[index].title,
+                                    provider.currentList[index].title,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      decoration: provider.getCurrentList()[index]
+                                      decoration: provider.currentList[index]
                                           .isCompleted
                                           ? TextDecoration.lineThrough
                                           : null,
                                     ),
                                   ),
-                                  subtitle: provider.getCurrentList()[index].reminder !=
+                                  subtitle: provider.currentList[index].reminder !=
                                       null ? Text(
                                     DateFormat('MMM d, yyyy HH:mm').format(provider
-                                        .getCurrentList()[index].reminder ?? DateTime
+                                        .currentList[index].reminder ?? DateTime
                                         .now()),
                                     style: TextStyle(
                                       color: mainColor,
