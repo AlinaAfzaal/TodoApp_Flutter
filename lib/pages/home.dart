@@ -226,7 +226,7 @@ class HomePage extends StatelessWidget {
                               TextButton(
                                 onPressed: () {
                                   provider.addTodoItem(textEditingController.text);
-
+                                  textEditingController.clear();
                                   Navigator.pop(context);
                                 },
                                 child: const Text('Add'),

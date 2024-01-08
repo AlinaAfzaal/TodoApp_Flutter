@@ -2,13 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/pages/splashScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/providers/home_page_provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
-  // MultiProvider(
-  //     providers: [
-  //     ChangeNotifierProvider(create: (_) => HomePageProvider()),
-  // ]);
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
 
   runApp(
       ChangeNotifierProvider(
