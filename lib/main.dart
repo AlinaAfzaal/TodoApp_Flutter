@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/pages/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/providers/home_page_provider.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'database/db_connection.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
-
+  await DatabaseConnection().database;
   runApp(
       ChangeNotifierProvider(
           create: (context)=>HomePageProvider(),

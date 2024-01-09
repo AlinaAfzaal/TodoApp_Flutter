@@ -18,7 +18,7 @@ class DatabaseConnection{
   Future<String> get fullPath async {
     const name = "todo.db";
     final path = await getDatabasesPath();
-    return join(name, path);
+    return join( path,name);
   }
 
   Future<Database> _initialize()async {

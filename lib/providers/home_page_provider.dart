@@ -4,13 +4,7 @@ import '../model/todoItem.dart';
 
 class HomePageProvider with ChangeNotifier{
 
-  // List<ToDoItem> todoList = [
-  //   ToDoItem(title: 'Coding', isCompleted: false),
-  //   ToDoItem(title: 'Complete Task of freeCodeCamp', isCompleted: true),
-  //   ToDoItem(title: 'Move Card to ReviewCoding Board', isCompleted: false),
-  // ];
-
-  late TodoDB todoDB= TodoDB();
+  TodoDB todoDB= TodoDB();
   List<ToDoItem> todoList=[];
 
   List<ToDoItem> get incompleteItems =>
@@ -36,7 +30,6 @@ class HomePageProvider with ChangeNotifier{
     else if(showItems==1) {
       currentList = incompleteItems;
     } else if(showItems==2){ currentList = completeItems;}
-    ChangeNotifier();
     notifyListeners();
     return currentList;
 
@@ -44,8 +37,7 @@ class HomePageProvider with ChangeNotifier{
 
   toggleCheckbox(int index) async {
     currentList[index].isCompleted = !currentList[index].isCompleted;
-    await todoDB.updateCheck(id:currentList[index].id,  check:currentList[index].isCompleted );
-    ChangeNotifier();
+    await todoDB.updateCheck(id:currentList[index].id!,  check:currentList[index].isCompleted );
     notifyListeners();
   }
 
@@ -58,29 +50,25 @@ class HomePageProvider with ChangeNotifier{
     await todoDB.create(title: text, reminder: reminder);
     getCurrentList();
     reminder=null;
-    ChangeNotifier();
     notifyListeners();
 
   }
 
   editTodoItem(int index) async {
-
     currentList[index].title = newValue;
     currentList[index].reminder = reminder;
-    await todoDB.update(id: currentList[index].id, title: currentList[index].title);
+    await todoDB.update(id: currentList[index].id!, title: currentList[index].title);
     getCurrentList();
 
     newValue = "";
     reminder = null;
-    ChangeNotifier();
     notifyListeners();
   }
 
   deleteTodoItem(int index) async {
     currentList.removeAt(index);
-    await todoDB.delete(currentList[index].id);
+    await todoDB.delete(currentList[index].id!);
     getCurrentList();
-    ChangeNotifier();
     notifyListeners();
   }
 

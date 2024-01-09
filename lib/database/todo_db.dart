@@ -10,15 +10,15 @@ class TodoDB{
     "id" INTEGER NOT NULL, 
     "title" TEXT NOT NULL, 
     "isCompleted" BOOL DEFAULT 0,
-    "reminder" DateTime, 
+    "reminder" TEXT, 
     PRIMARY KEY ("id" AUTOINCREMENT)
     );""");
   }
 
   Future<int> create({required String title, DateTime? reminder}) async {
     final database = await DatabaseConnection().database;
-    return await database.rawInsert('''INSERT INTO $tableName(title, reminder) VALUES(?, ?, ?)''',
-      [title, reminder ]
+    return await database.rawInsert('''INSERT INTO $tableName(title, reminder) VALUES(?,?)''',
+      [title, reminder.toString()]
     );
   }
 
@@ -27,13 +27,6 @@ class TodoDB{
     final todos = await database.rawQuery('''SELECT* FROM $tableName''');
     return todos.map((todo) => ToDoItem.fromSqfliteDatabase(todo)).toList();
   }
-
-  Future<ToDoItem> fetchById(int id) async {
-    final database = await DatabaseConnection().database;
-    final todo= await database.rawQuery('''SELECT* FROM $tableName WHERE id=?''',[id]);
-    return ToDoItem.fromSqfliteDatabase(todo.first);
-  }
-
 
   Future<int> update({required int id,  String? title, DateTime? reminder}) async {
     final database = await DatabaseConnection().database;
@@ -63,7 +56,7 @@ class TodoDB{
 
   Future<void> delete(int id) async {
     final database = await DatabaseConnection().database;
-    final todo= await database.rawDelete('''DELETE* FROM $tableName WHERE id=?''',[id]);
+    await database.rawDelete('''DELETE FROM $tableName WHERE id=?''',[id]);
   }
 
 
